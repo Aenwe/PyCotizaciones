@@ -27,10 +27,14 @@ cotizaciones.columns = ['Moneda','Compra','Venta']
 dfDolar = cotizaciones[cotizaciones["Moneda"] == "Dolar U.S.A"]
 dfEuro = cotizaciones[cotizaciones["Moneda"] == "Euro"]
 
+dfDolar.reset_index(drop=True, inplace=True)
+dfEuro.reset_index(drop=True, inplace=True)
+
 dCompraD = dfDolar["Compra"][0]
 dVentaD = dfDolar["Venta"][0]
-dCompraE = dfEuro["Compra"][2]
-dVentaE = dfEuro["Venta"][2]
+dCompraE = dfEuro["Compra"][0]
+dVentaE = dfEuro["Venta"][0]
+
 
 conn = db.connect('Driver={ODBC Driver 13 for SQL Server};'
                       'Server=150.1.40.107;'
@@ -45,7 +49,6 @@ conn106 = db.connect('Driver={ODBC Driver 13 for SQL Server};'
                       #'Trusted_Connection=yes;'
                       'UID=CWADBUser;'
                       'PWD='+ bytes(uncipher_text).decode("utf-8"))
-
 sSql = "EXEC SP_INS_GRTVAL "
 sSql = sSql + "@CODCOF = 'USD', @FECCAL = '" + dFecha + "', @CIECOM = " + str(dCompraD) + ", @CIEVEN = " + str(dVentaD) + ", @USERID = 'ADMIN'"
 print(sSql)
